@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emanate — HTML Template</title>
+<style>
+  :root{
+    --accent: #5b5bd6;
+    --accent-dark: #4747b8;
+    --ink: #1c2130;
+    --ink-soft: #414863;
+    --overlay: rgba(255,255,255,0.35);
+    --bg-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2000&auto=format&fit=crop');
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ---------- HERO / BACKGROUND ---------- */
+  .hero{
+    position: relative;
+    min-height: 100vh;
+    background-image: linear-gradient(var(--overlay), var(--overlay)), var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.4s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 22px 48px;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:700;
+    font-size:1.05rem;
+    letter-spacing: 0.5px;
+    color: var(--ink);
+  }
+  .logo svg{ display:block; }
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap: 32px;
+  }
+  .nav-links a{
+    color: var(--ink-soft);
+    text-decoration:none;
+    font-size: 0.95rem;
+  }
+  .nav-links a:hover{ color: var(--ink); }
+  .nav-buttons{
+    display:flex;
+    gap: 12px;
+    align-items:center;
+  }
+  .btn{
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    display:inline-block;
+  }
+  .btn:hover{ transform: translateY(-1px); }
+  .btn-login{
+    background: rgba(255,255,255,0.6);
+    color: var(--ink);
+  }
+  .btn-login:hover{ background: rgba(255,255,255,0.85); }
+  .btn-signup{
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 14px rgba(91,91,214,0.35);
+  }
+  .btn-signup:hover{ background: var(--accent-dark); }
+
+  /* ---------- HERO CONTENT ---------- */
+  .hero-content{
+    flex: 1;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 40px 24px 120px;
+  }
+  .hero-content h1{
+    font-size: clamp(2.1rem, 5vw, 3.6rem);
+    font-weight: 800;
+    margin: 0 0 22px;
+    color: var(--ink);
+    max-width: 900px;
+    line-height: 1.15;
+  }
+  .hero-content p{
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 620px;
+    margin: 0 0 34px;
+    line-height: 1.6;
+  }
+  .hero-cta{
+    padding: 14px 30px;
+    font-size: 1rem;
+  }
+
+  /* ---------- BACKGROUND CUSTOMIZER ---------- */
+  .bg-toggle{
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    cursor: pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index: 50;
+    transition: transform 0.2s ease;
+  }
+  .bg-toggle:hover{ transform: scale(1.06); }
+
+  .bg-panel{
+    position: fixed;
+    bottom: 88px;
+    right: 24px;
+    width: 300px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    padding: 20px;
+    z-index: 50;
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .bg-panel.open{ display:flex; }
+  .bg-panel h3{
+    margin:0;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+  .swatches{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .swatch{
+    height: 46px;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    cursor:pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .swatch:hover{ transform: scale(1.04); }
+  .swatch.active{ border-color: var(--accent); }
+
+  .panel-row label{
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    display:block;
+    margin-bottom: 6px;
+  }
+  .panel-row input[type="text"]{
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: 7px;
+    border: 1px solid #dcdfe8;
+    font-size: 0.85rem;
+  }
+  .panel-row-inline{
+    display:flex;
+    gap: 8px;
+  }
+  .panel-row-inline input{ flex:1; }
+  .small-btn{
+    padding: 9px 14px;
+    border-radius: 7px;
+    border: none;
+    background: var(--accent);
+    color: white;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .small-btn:hover{ background: var(--accent-dark); }
+
+  .upload-label{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 10px;
+    border: 1.5px dashed #cfd3e0;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .upload-label:hover{ border-color: var(--accent); color: var(--accent); }
+  input[type="file"]{ display:none; }
+
+  .overlay-row{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+  }
+  .overlay-row input[type="range"]{ flex:1; }
+  .overlay-row span{ font-size: 0.78rem; color: var(--ink-soft); width: 34px; text-align:right; }
+
+  @media (max-width: 720px){
+    nav{ padding: 18px 20px; }
+    .nav-links{ display:none; }
+    .hero-content{ padding: 30px 20px 100px; }
+    .bg-panel{ width: calc(100vw - 40px); right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="hero" id="hero">
+    <nav>
+      <div class="logo">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <circle cx="11" cy="11" r="11" fill="#1c2130"/>
+          <path d="M6 11a5 5 0 0 1 10 0" stroke="white" stroke-width="1.6" fill="none"/>
+          <circle cx="11" cy="11" r="2.4" fill="white"/>
+        </svg>
+        EMANATE
+      </div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Style Guide</a>
+        <a href="#">Pricing</a>
+      </div>
+      <div class="nav-buttons">
+        <a href="#" class="btn btn-login">Log In</a>
+        <a href="#" class="btn btn-signup">Sign Up</a>
+      </div>
+    </nav>
+
+    <div class="hero-content">
+      <h1>Emanate HTML Template</h1>
+      <p>A minimal and responsive HTML5 landing page built on lightweight, clean and customizable code.</p>
+      <a href="#" class="btn btn-signup hero-cta">Get started, it's free!</a>
+    </div>
+  </div>
+
+  <!-- Background customizer -->
+  <button class="bg-toggle" id="bgToggle" aria-label="Change background image" title="Change background image">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M4 16l4.5-6 3.5 4.5L15 10l5 8H4z" stroke="#1c2130" stroke-width="1.6" stroke-linejoin="round"/>
+      <circle cx="8" cy="7" r="1.6" fill="#1c2130"/>
+    </svg>
+  </button>
+
+  <div class="bg-panel" id="bgPanel">
+    <h3>Background image</h3>
+    <div class="swatches" id="swatches"></div>
+
+    <div class="panel-row">
+      <label>Or paste an image URL</label>
+      <div class="panel-row-inline">
+        <input type="text" id="urlInput" placeholder="https://...">
+        <button class="small-btn" id="applyUrl">Set</button>
+      </div>
+    </div>
+
+    <label class="upload-label" for="fileInput">Upload from your device</label>
+    <input type="file" id="fileInput" accept="image/*">
+
+    <div class="panel-row">
+      <label>Overlay lightness</label>
+      <div class="overlay-row">
+        <input type="range" id="overlayRange" min="0" max="80" value="35">
+        <span id="overlayVal">35%</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const presets = [
+    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2000&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2000&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2000&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2000&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1439853949127-fa647821eba0?q=80&w=2000&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=2000&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?q=80&w=2000&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?q=80&w=2000&auto=format&fit=crop'
+  ];
+
+  const root = document.documentElement;
+  const swatchesEl = document.getElementById('swatches');
+  const hero = document.getElementById('hero');
+  const bgToggle = document.getElementById('bgToggle');
+  const bgPanel = document.getElementById('bgPanel');
+  const urlInput = document.getElementById('urlInput');
+  const applyUrl = document.getElementById('applyUrl');
+  const fileInput = document.getElementById('fileInput');
+  const overlayRange = document.getElementById('overlayRange');
+  const overlayVal = document.getElementById('overlayVal');
+
+  function setBackground(url){
+    root.style.setProperty('--bg-image', `url('${url}')`);
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    const match = document.querySelector(`.swatch[data-url="${url}"]`);
+    if(match) match.classList.add('active');
+  }
+
+  presets.forEach((url, i) => {
+    const div = document.createElement('div');
+    div.className = 'swatch' + (i === 0 ? ' active' : '');
+    div.style.backgroundImage = `url('${url}')`;
+    div.dataset.url = url;
+    div.title = 'Use this background';
+    div.addEventListener('click', () => setBackground(url));
+    swatchesEl.appendChild(div);
+  });
+
+  bgToggle.addEventListener('click', () => {
+    bgPanel.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if(!bgPanel.contains(e.target) && !bgToggle.contains(e.target)){
+      bgPanel.classList.remove('open');
+    }
+  });
+
+  applyUrl.addEventListener('click', () => {
+    const val = urlInput.value.trim();
+    if(val){
+      setBackground(val);
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    }
+  });
+
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setBackground(ev.target.result);
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    };
+    reader.readAsDataURL(file);
+  });
+
+  overlayRange.addEventListener('input', () => {
+    const v = overlayRange.value;
+    overlayVal.textContent = v + '%';
+    root.style.setProperty('--overlay', `rgba(255,255,255,${v/100})`);
+  });
+</script>
+
+</body>
+</html>
